@@ -16,6 +16,7 @@ import datasense as ds
 
 
 def main():
+    # Define parameters
     title_file_name_out = 'Name of txt file to save as?'
     title_file_name_in = 'Name of pdf file to read?'
     output_url = 'extract_text_from_pdf_file.html'
@@ -23,14 +24,17 @@ def main():
     file_types_in = [('pdf files', '.pdf .PDF')]
     header_title = 'Extract text from pdf file'
     header_id = 'extract-text-from-pdf-file'
+    # Request file to read
     path_to_file_in = ds.ask_open_file_name_path(
         title=title_file_name_in,
         filetypes=file_types_in
     )
+    # Request file to save
     path_to_file_out = ds.ask_save_as_file_name_path(
         title=title_file_name_out,
         filetypes=file_types_out
     )
+    # Begin html output
     original_stdout = ds.html_begin(
         output_url=output_url,
         header_title=header_title,
@@ -39,6 +43,7 @@ def main():
     start_time = time.time()
     string_with_lines = pdf_to_text(path=path_to_file_in)
     tidy = tidy_string(string=string_with_lines)
+    # Save text to file
     save_to_file(
         path=path_to_file_out,
         string=tidy
@@ -51,6 +56,7 @@ def main():
         read_file_names=path_to_file_in,
         save_file_names=path_to_file_out
     )
+    # End html output
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
