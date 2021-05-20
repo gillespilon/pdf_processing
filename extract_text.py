@@ -2,10 +2,12 @@
 '''
 Extract text from a PDF file.
 
-- Create a directory for the pdf files
-- Put all of the pdf files in this directory
-- Create a directory for the txt files
-- The output files will be in this directory
+A good directory tree for the PDF files could be:
+    directory_anywhere/
+    directory_anywhere/pdfs_to_read/
+        put pdf files here
+    directory_anywhere/txts_to_save/
+        txt files will be saved here
 '''
 
 from pathlib import Path
@@ -23,12 +25,12 @@ import datasense as ds
 
 def main():
     # Define parameters
-    chdir(Path(__file__).parent.resolve())  # required for cron
     title_directory_out = 'Name of the directory to save as?'
     title_directory_in = 'Name of the directory to read in?'
     output_url = 'extract_text_from_pdf_file.html'
     header_title = 'Extract text from pdf file'
     header_id = 'extract-text-from-pdf-file'
+    chdir(Path(__file__).parent.resolve())
     extension_in = ['pdf', 'PDF']
     extension_out = '.txt'
     # Request file to read
@@ -39,7 +41,7 @@ def main():
     # Request file to save
     path_to_files_out = ds.ask_directory_path(
         title=title_directory_out,
-        initialdir=Path.cwd()
+        initialdir=Path(*path_to_files_in.parts[:-1])
     )
     # Begin html output
     original_stdout = ds.html_begin(
