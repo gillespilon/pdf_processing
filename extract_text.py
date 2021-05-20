@@ -94,6 +94,20 @@ def save_to_file(
 def tidy_string(string: str) -> str:
     '''
     Strip empty lines, leading spaces, trailing spaces from a string.
+
+    Parameters
+    ----------
+    string : str
+        The string to clean.
+
+    Returns
+    -------
+    tidy : str
+        The cleaned string.
+
+    Example
+    -------
+    >>> tidy = tidy_string(string=string)
     '''
     lines = string.split('\n')
     non_empty_lines = [line for line in lines if line.strip() != '']
