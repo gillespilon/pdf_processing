@@ -69,6 +69,20 @@ def save_to_file(
 ):
     '''
     Save a string to a file.
+
+    Parameters
+    ----------
+    path : Path
+        The file path.
+    string : str
+        The string to save in the file.
+
+    Example
+    -------
+    >>> save_to_file(
+    >>>     path=path_to_file_out,
+    >>>     string=string
+    >>> )
     '''
     file_to_save = open(
         file=path,
