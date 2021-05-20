@@ -31,11 +31,13 @@ def main():
     extension_out = '.txt'
     # Request file to read
     path_to_files_in = ds.ask_directory_path(
-        title=title_directory_in
+        title=title_directory_in,
+        initialdir=Path.cwd()
     )
     # Request file to save
     path_to_files_out = ds.ask_directory_path(
-        title=title_directory_out
+        title=title_directory_out,
+        initialdir=Path.cwd()
     )
     # Begin html output
     original_stdout = ds.html_begin(
