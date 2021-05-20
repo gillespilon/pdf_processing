@@ -120,12 +120,26 @@ def tidy_string(string: str) -> str:
 def pdf_to_text(path: Path) -> str:
     '''
     Extract all text from PDF file into a string.
+
+    Parameters
+    ----------
+    path : Path
+        The path of the pdf file.
+
+    Returns
+    -------
+    text : str
+        The string of raw text from the pdf file.
+
+    Example
+    -------
+    >>> string = pdf_to_text(path=path_to_file_in)
     '''
-    manager = PDFResourceManager()
+    rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     layout = LAParams(all_texts=True)
     device = TextConverter(
-        manager,
+        rsrcmgr,
         retstr,
         laparams=layout
     )
@@ -134,7 +148,7 @@ def pdf_to_text(path: Path) -> str:
         mode='rb'
     )
     interpreter = PDFPageInterpreter(
-        manager,
+        rsrcmgr,
         device
     )
     for page in PDFPage.get_pages(
