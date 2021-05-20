@@ -1,6 +1,10 @@
 #! /usr/bin/env python3
 '''
 Extract text from a PDF file.
+
+TODO:
+- Read all PDFs from a directory, rather than one specific file
+- Save the text of each input file with _text appended to the output file names
 '''
 
 from pathlib import Path
