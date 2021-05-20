@@ -2,9 +2,10 @@
 '''
 Extract text from a PDF file.
 
-TODO:
-- Read all PDFs from a directory, rather than one specific file
-- Save the text of each input file with _text appended to the output file names
+- Create a directory for the pdf files
+- Put all of the pdf files in this directory
+- Create a directory for the txt files
+- The output files will be in this directory
 '''
 
 from pathlib import Path
@@ -21,22 +22,20 @@ import datasense as ds
 
 def main():
     # Define parameters
-    title_file_name_out = 'Name of txt file to save as?'
-    title_file_name_in = 'Name of pdf file to read?'
+    title_directory_out = 'Name of the directory to save as?'
+    title_directory_in = 'Name of the directory to read in?'
     output_url = 'extract_text_from_pdf_file.html'
-    file_types_out = [('txt files', '.txt .TXT')]
-    file_types_in = [('pdf files', '.pdf .PDF')]
     header_title = 'Extract text from pdf file'
     header_id = 'extract-text-from-pdf-file'
+    extension_in = ['pdf', 'PDF']
+    extension_out = '.txt'
     # Request file to read
-    path_to_file_in = ds.ask_open_file_name_path(
-        title=title_file_name_in,
-        filetypes=file_types_in
+    path_to_files_in = ds.ask_directory_path(
+        title=title_directory_in
     )
     # Request file to save
-    path_to_file_out = ds.ask_save_as_file_name_path(
-        title=title_file_name_out,
-        filetypes=file_types_out
+    path_to_files_out = ds.ask_directory_path(
+        title=title_directory_out
     )
     # Begin html output
     original_stdout = ds.html_begin(
@@ -45,20 +44,35 @@ def main():
         header_id=header_id
     )
     start_time = time.time()
-    string_with_lines = pdf_to_text(path=path_to_file_in)
-    tidy = tidy_string(string=string_with_lines)
-    # Save text to file
-    save_to_file(
-        path=path_to_file_out,
-        string=tidy
+    list_raw_files = ds.directory_file_list(
+        path=path_to_files_in,
+        extension=extension_in
     )
+    # Process pdf, save txt
+    for item in list_raw_files:
+        string_with_lines = pdf_to_text(path=item)
+        tidy = tidy_string(string=string_with_lines)
+        save_to_file(
+            path=Path(path_to_files_out, f'{Path(item).stem}{extension_out}'),
+            string=tidy
+        )
+    list_raw_file_names = [Path(item).name for item in list_raw_files]
+    list_txt_file_names = [
+        f'{Path(item).stem}{extension_out}' for item in list_raw_files
+    ]
     stop_time = time.time()
     ds.report_summary(
         start_time=start_time,
         stop_time=stop_time,
-        print_heading=False,
-        read_file_names=path_to_file_in,
-        save_file_names=path_to_file_out
+        print_heading=False
+    )
+    ds.print_list_by_item(
+        list=list_raw_file_names,
+        title='Files read:'
+    )
+    ds.print_list_by_item(
+        list=list_txt_file_names,
+        title='Files saved:'
     )
     # End html output
     ds.html_end(
@@ -84,7 +98,7 @@ def save_to_file(
     Example
     -------
     >>> save_to_file(
-    >>>     path=path_to_file_out,
+    >>>     path=path_to_files_out,
     >>>     string=string
     >>> )
     '''
@@ -137,7 +151,7 @@ def pdf_to_text(path: Path) -> str:
 
     Example
     -------
-    >>> string = pdf_to_text(path=path_to_file_in)
+    >>> string = pdf_to_text(path=path_to_files_in)
     '''
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
