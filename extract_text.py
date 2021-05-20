@@ -10,6 +10,7 @@ Extract text from a PDF file.
 
 from pathlib import Path
 from io import StringIO
+from os import chdir
 import time
 
 
@@ -22,6 +23,7 @@ import datasense as ds
 
 def main():
     # Define parameters
+    chdir(Path(__file__).parent.resolve())  # required for cron
     title_directory_out = 'Name of the directory to save as?'
     title_directory_in = 'Name of the directory to read in?'
     output_url = 'extract_text_from_pdf_file.html'
