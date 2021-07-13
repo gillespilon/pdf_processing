@@ -8,6 +8,9 @@ A good directory tree for the PDF files could be:
         put pdf files here
     directory_anywhere/txts_to_save/
         txt files will be saved here
+
+Requires datasense package.
+https://github.com/gillespilon/datasense
 '''
 
 from pathlib import Path
@@ -51,8 +54,8 @@ def main():
     )
     start_time = time.time()
     list_raw_files = ds.directory_file_list(
-        path=path_to_files_in,
-        extension=extension_in
+        directory=path_to_files_in,
+        patterns=extension_in
     )
     # Process pdf, save txt
     for item in list_raw_files:
