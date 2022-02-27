@@ -34,7 +34,7 @@ def main():
     header_title = 'Extract text from pdf file'
     header_id = 'extract-text-from-pdf-file'
     chdir(Path(__file__).parent.resolve())
-    extension_in = ['pdf', 'PDF']
+    extension_in = ['.pdf', '.PDF']
     extension_out = '.txt'
     # Request file to read
     path_to_files_in = ds.ask_directory_path(
@@ -52,7 +52,7 @@ def main():
         header_title=header_title,
         header_id=header_id
     )
-    start_time = time.time()
+    start_time = time.perf_counter()
     list_raw_files = ds.directory_file_list(
         directory=path_to_files_in,
         patterns=extension_in
@@ -69,7 +69,7 @@ def main():
     list_txt_file_names = [
         f'{Path(item).stem}{extension_out}' for item in list_raw_files
     ]
-    stop_time = time.time()
+    stop_time = time.perf_counter()
     ds.report_summary(
         start_time=start_time,
         stop_time=stop_time,
