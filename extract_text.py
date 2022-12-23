@@ -53,7 +53,7 @@ def main():
         header_id=header_id
     )
     start_time = time.perf_counter()
-    list_raw_files = ds.directory_file_list(
+    list_raw_files = ds.list_files(
         directory=path_to_files_in,
         patterns=extension_in
     )
